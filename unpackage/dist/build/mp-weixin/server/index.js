@@ -1,0 +1,1 @@
+"use strict";const e=require("../common/vendor.js");exports.request=({method:t="POST",url:r,data:a,callback:s})=>{try{return new Promise(((c,o)=>{e.wx$1.request({url:r,method:t,data:a,success:e=>{c(e.data),s&&s(e.data)},fail:e=>{o(e),s&&s(e)},complete:()=>{}})}))}catch(c){return Promise.reject(c)}};

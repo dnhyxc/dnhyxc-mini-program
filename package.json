@@ -1,0 +1,17 @@
+{
+	"name": "miniprogram-ts-quickstart",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {},
+	"keywords": [],
+	"author": "",
+	"license": "",
+	"dependencies": {
+		"pinia": "^3.0.1",
+		"sanitize-html": "^2.16.0",
+		"uview-plus": "^3.3.69"
+	},
+	"devDependencies": {
+		"@types/sanitize-html": "^2.16.0"
+	}
+}

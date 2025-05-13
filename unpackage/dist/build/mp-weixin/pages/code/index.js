@@ -1,0 +1,1 @@
+"use strict";const e=require("../../common/vendor.js");if(!Array){e.resolveComponent("u-loading-icon")()}Math;const o=e.defineComponent({__name:"index",setup(o){const n=e.ref(""),t=e.ref(0);e.onMounted((()=>{}));const r=e=>{n.value="",t.value=e.detail.scrollTop};return(o,t)=>({b:n.value,c:e.o(r)})}}),n=e._export_sfc(o,[["__scopeId","data-v-1eab4cd9"]]);wx.createPage(n);

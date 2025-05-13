@@ -1,0 +1,21 @@
+$bg-color: #fff;
+$bg: #fff;
+
+// 多行省略（参数控制行数）
+@mixin ellipsisMore($count) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $count;
+  word-break: break-all;
+  line-clamp: $count;
+  vertical-align: middle;
+}
+
+// 单行省略（无参数）
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

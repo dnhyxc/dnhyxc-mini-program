@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/code/index",
+    "pages/detail/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "dnhyxc",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#fff"
+  },
+  "tabBar": {
+    "backgroundColor": "#fff",
+    "color": "#999999",
+    "selectedColor": "#007aff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "文章列表",
+        "iconPath": "static/poem-base.png",
+        "selectedIconPath": "static/poem-base-active.png"
+      },
+      {
+        "pagePath": "pages/code/index",
+        "text": "代码片段",
+        "iconPath": "static/poem-senior.png",
+        "selectedIconPath": "static/poem-senior-active.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
