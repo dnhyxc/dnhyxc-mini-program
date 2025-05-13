@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "Code详情",
+  "backgroundColor": "#fff",
+  "usingComponents": {
+    "u-loading-icon": "../../node-modules/uview-plus/components/u-loading-icon/u-loading-icon",
+    "mp-html": "../../components/mp-html/mp-html"
+  }
+}

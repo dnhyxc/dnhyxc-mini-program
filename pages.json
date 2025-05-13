@@ -1,6 +1,5 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
+	"pages": [{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "文章列表",
@@ -20,27 +19,33 @@
 				"navigationBarTitleText": "文章详情",
 				"backgroundColor": "#fff"
 			}
+		},
+		{
+			"path": "pages/codesnippet/index",
+			"style": {
+				"navigationBarTitleText": "Code详情",
+				"backgroundColor": "#fff"
+			}
 		}
 	],
 	"tabBar": {
-		"backgroundColor": "#fff", // 设置背景颜色
-		"color": "#999999", // 设置图标颜色
-		"selectedColor": "#007aff", // 设置选中的图标颜色
-		"borderStyle": "white", // 设置边框颜色
+		"backgroundColor": "#fff",
+		"color": "#999999",
+		"selectedColor": "#007aff",
+		"borderStyle": "white",
 		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "文章列表",
 				"iconPath": "static/poem-base.png",
-				"selectedIconPath": "static/poem-base-active.png" // 选中后的图标
+				"selectedIconPath": "static/poem-base-active.png"
 			},
 			{
 				"pagePath": "pages/code/index",
 				"text": "代码片段",
 				"iconPath": "static/poem-senior.png",
-				"selectedIconPath": "static/poem-senior-active.png" // 选中后的图标
+				"selectedIconPath": "static/poem-senior-active.png"
 			}
 		]
-		// "custom": true
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -50,9 +55,8 @@
 	},
 	"uniIdRouter": {},
 	"easycom": {
-		"autoscan": true, // 表示启用自动扫描组件功能
+		"autoscan": true,
 		"custom": {
-			// 在页面中可以直接使用 u- 开头的组件而无需手动导入，例如直接使用 <u-button> 组件。
 			"^u-(.*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
 	}

@@ -2,6 +2,9 @@
   "navigationBarTitleText": "代码片段",
   "backgroundColor": "#fff",
   "usingComponents": {
-    "u-loading-icon": "../../node-modules/uview-plus/components/u-loading-icon/u-loading-icon"
+    "u-loading-icon": "../../node-modules/uview-plus/components/u-loading-icon/u-loading-icon",
+    "u-cell": "../../node-modules/uview-plus/components/u-cell/u-cell",
+    "u-list-item": "../../node-modules/uview-plus/components/u-list-item/u-list-item",
+    "u-list": "../../node-modules/uview-plus/components/u-list/u-list"
   }
 }

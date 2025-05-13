@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const stores_index = require("../../stores/index.js");
+const stores_article = require("../../stores/article.js");
 if (!Array) {
   const _easycom_u_loading_icon2 = common_vendor.resolveComponent("u-loading-icon");
   _easycom_u_loading_icon2();
@@ -13,7 +13,7 @@ const mpHtml = () => "../../components/mp-html/mp-html.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
-    const articleStore = stores_index.useArticleStore();
+    const articleStore = stores_article.useArticleStore();
     const scrollIntoId = common_vendor.ref("");
     const scrollTop = common_vendor.ref(0);
     common_vendor.onLoad(async (options) => {

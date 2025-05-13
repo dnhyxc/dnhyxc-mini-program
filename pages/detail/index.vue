@@ -10,8 +10,9 @@
 
 <script setup lang="ts">
 	import { ref } from "vue";
+	// @ts-ignore
 	import { onLoad } from "@dcloudio/uni-app";
-	import { useArticleStore } from "../../stores";
+	import { useArticleStore } from "../../stores/article";
 	// @ts-ignore
 	import mpHtml from '@/components/mp-html/mp-html.vue'
 
@@ -27,10 +28,6 @@
 		const articleId = !['undefined', 'null'].includes(id) ? id : options?.id
 		await articleStore.getDetail(articleId);
 	});
-
-	const onScrollTo = () => {
-		scrollIntoId.value = "poem-0";
-	};
 
 	const onScroll = (e : any) => {
 		scrollIntoId.value = "";
@@ -217,6 +214,23 @@
 
 	span[class="katex-html"][aria-hidden="true"] {
 		display: none;
+	}
+
+	.table {
+		border: 1px solid #ccc;
+		border-spacing: 0;
+		border-radius: 5px;
+		border-collapse: collapse;
+	}
+
+	.table .td {
+		border: 1px solid #ccc;
+		padding: 0 3px;
+	}
+
+	.table .th {
+		border: 1px solid #ccc;
+		padding: 0 3px;
 	}
 
 	.code-container {

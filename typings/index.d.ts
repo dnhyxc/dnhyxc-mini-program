@@ -50,3 +50,16 @@ export interface ArticleItem extends AddCollectionRes {
 	gradient ?: number[][];
 	language ?: string;
 }
+
+// 代码集
+export interface CodeItem {
+	id : string;
+	userId : string;
+	content : string;
+	title : string;
+	abstract : string;
+	createTime : number;
+	language : string;
+	codeType : string;
+	difficulty : string;
+}

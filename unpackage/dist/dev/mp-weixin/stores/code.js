@@ -1,14 +1,14 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
 const server_index = require("../server/index.js");
-const url = "http://localhost:9112/api";
-const useArticleStore = common_vendor.defineStore("article", {
+const constant_index = require("../constant/index.js");
+const useCodeStore = common_vendor.defineStore("code", {
   state: () => ({
     pageNo: 0,
     pageSize: 20,
     total: 0,
     loading: false,
-    articleList: [],
+    codeList: [],
     detail: {},
     detailLoading: false,
     html: ""
@@ -18,46 +18,47 @@ const useArticleStore = common_vendor.defineStore("article", {
       this.pageNo = 0;
       this.pageSize = 20;
       this.total = 0;
-      this.articleList = [];
     },
-    async getArticleList() {
+    async getCodeList() {
       try {
-        if (this.articleList.length !== 0 && this.articleList.length >= this.total)
+        if (this.codeList.length !== 0 && this.codeList.length >= this.total)
           return;
         this.pageNo = this.pageNo + 1;
         this.loading = true;
         const res = await server_index.request({
-          url: `${url}/articleList`,
+          url: `${constant_index.apiUrl}/getCodeListByMiniProgram`,
           data: {
             pageNo: this.pageNo,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            all: true
           }
         });
         this.loading = false;
         if (res == null ? void 0 : res.success) {
           this.total = res.data.total;
-          this.articleList = [...this.articleList, ...res.data.list];
+          this.codeList = [...this.codeList, ...res.data.list];
         }
       } catch {
         this.loading = false;
       }
     },
-    async getDetail(id) {
+    async getCodeById(id) {
       try {
         this.detailLoading = true;
         const res = await server_index.request({
-          url: `${url}/articleDetail`,
-          // url: 'https://www.dnhyxc.cn/api/articleDetail',
+          url: `${constant_index.apiUrl}/getCodeByIdByMiniProgram`,
           data: {
             id
           }
         });
-        this.detail = res.data;
+        this.detailLoading = false;
         if (res.success) {
+          this.detail = res.data;
           const result = await server_index.request({
-            url: `${url}/md2html`,
+            url: `${constant_index.apiUrl}/md2html`,
             data: {
-              content: res.data.content,
+              content: `\`\`\`${res.data.language}
+${res.data.content}\`\`\``,
               options: {
                 needKatex: false,
                 // 是否需要转译数学公式
@@ -87,11 +88,7 @@ const useArticleStore = common_vendor.defineStore("article", {
         this.detailLoading = false;
       }
     }
-  },
-  getters: {
-    // audios: (state) => state.audios,
-    // audioKeys: (state) => state.audioKeys
   }
 });
-exports.useArticleStore = useArticleStore;
-//# sourceMappingURL=../../.sourcemap/mp-weixin/stores/index.js.map
+exports.useCodeStore = useCodeStore;
+//# sourceMappingURL=../../.sourcemap/mp-weixin/stores/code.js.map

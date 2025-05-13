@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/code/index",
-    "pages/detail/index"
+    "pages/detail/index",
+    "pages/codesnippet/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const stores_index = require("../../stores/index.js");
+const stores_article = require("../../stores/article.js");
 if (!Array) {
   const _easycom_u_loading_icon2 = common_vendor.resolveComponent("u-loading-icon");
   const _easycom_u_list_item2 = common_vendor.resolveComponent("u-list-item");
@@ -16,13 +16,10 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
-    const articleStore = stores_index.useArticleStore();
-    common_vendor.ref("");
-    common_vendor.ref(0);
-    common_vendor.ref([]);
+    const articleStore = stores_article.useArticleStore();
     const noMore = common_vendor.computed(() => {
-      const { total, articleList: articleList2, pageSize } = articleStore;
-      return articleList2.length >= total && articleList2.length && total > pageSize;
+      const { total, articleList, pageSize } = articleStore;
+      return articleList.length >= total && articleList.length && total > pageSize;
     });
     common_vendor.onMounted(() => {
       loadMore();

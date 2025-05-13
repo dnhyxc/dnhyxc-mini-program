@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["constant/index.ts"],"sourcesContent":["export const apiUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:9112/api' : 'https://www.dnhyxc.cn/api'"],"names":[],"mappings":";AAAa,MAAA,SAAkD;;"}

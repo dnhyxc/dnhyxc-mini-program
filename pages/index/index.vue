@@ -21,15 +21,11 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, computed } from 'vue';
-	import { useArticleStore } from '../../stores'
+	import { onMounted, computed } from 'vue';
+	import { useArticleStore } from '../../stores/article'
 	import { ArticleItem } from '../../typings';
 
 	const articleStore = useArticleStore()
-
-	const scrollIntoId = ref<string>('')
-	const scrollTop = ref<number>(0)
-	const articleList = ref([])
 
 	const noMore = computed(() => {
 		const { total, articleList, pageSize } = articleStore
@@ -49,6 +45,7 @@
 	}
 
 	const toDetail = (item : ArticleItem) => {
+		// @ts-ignore
 		uni.navigateTo({
 			url: `/pages/detail/index?id=${item.id}` // 注意斜杠开头
 		});

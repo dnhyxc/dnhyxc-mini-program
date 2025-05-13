@@ -1,29 +1,27 @@
 import { defineStore } from 'pinia';
-import { request } from '../server'
 import sanitizeHtml from 'sanitize-html';
-import { ArticleItem } from '../typings/index'
+import { request } from '../server'
+import { CodeItem } from '../typings'
+import { apiUrl } from '../constant'
 
 interface IProps {
 	pageNo : number,
 	pageSize : number,
 	total : number,
 	loading : boolean,
-	articleList : ArticleItem[],
-	detail : Omit<ArticleItem, 'id'>,
+	codeList : CodeItem[],
+	detail : Partial<CodeItem>,
 	detailLoading : boolean,
 	html : string
 }
 
-const url = 'http://localhost:9112/api'
-// const url = 'https://www.dnhyxc.cn/api'
-
-export const useArticleStore = defineStore('article', {
+export const useCodeStore = defineStore('code', {
 	state: () : IProps => ({
 		pageNo: 0,
 		pageSize: 20,
 		total: 0,
 		loading: false,
-		articleList: [],
+		codeList: [],
 		detail: {},
 		detailLoading: false,
 		html: ''
@@ -33,45 +31,45 @@ export const useArticleStore = defineStore('article', {
 			this.pageNo = 0
 			this.pageSize = 20
 			this.total = 0
-			this.articleList = []
 		},
-		async getArticleList() {
+		async getCodeList() {
 			try {
-				if (this.articleList.length !== 0 && this.articleList.length >= this.total) return;
+				if (this.codeList.length !== 0 && this.codeList.length >= this.total) return;
 				this.pageNo = this.pageNo + 1;
 				this.loading = true
-				const res = await request<{ data : { list : ArticleItem[], total : number }, success : boolean }>({
-					url: `${url}/articleList`,
+				const res = await request<{ data : { list : CodeItem[], total : number }, success : boolean }>({
+					url: `${apiUrl}/getCodeListByMiniProgram`,
 					data: {
 						pageNo: this.pageNo,
-						pageSize: this.pageSize
+						pageSize: this.pageSize,
+						all: true
 					}
 				})
 				this.loading = false;
 				if (res?.success) {
 					this.total = res.data.total;
-					this.articleList = [...this.articleList, ...res.data.list];
+					this.codeList = [...this.codeList, ...res.data.list];
 				}
 			} catch {
 				this.loading = false
 			}
 		},
-		async getDetail(id : string) {
+		async getCodeById(id : string) {
 			try {
 				this.detailLoading = true;
-				const res = await request<{ data : ArticleItem, success : boolean }>({
-					url: `${url}/articleDetail`,
-					// url: 'https://www.dnhyxc.cn/api/articleDetail',
+				const res = await request<{ data : CodeItem, success : boolean }>({
+					url: `${apiUrl}/getCodeByIdByMiniProgram`,
 					data: {
 						id
 					}
 				})
-				this.detail = res.data
+				this.detailLoading = false;
 				if (res.success) {
+					this.detail = res.data
 					const result = await request<{ data : string, success : boolean }>({
-						url: `${url}/md2html`,
+						url: `${apiUrl}/md2html`,
 						data: {
-							content: res.data.content,
+							content: `\`\`\`${res.data.language}\n${res.data.content}\`\`\``,
 							options: {
 								needKatex: false, // 是否需要转译数学公式
 								lineNumber: true // 是否开启代码块行号
@@ -98,9 +96,5 @@ export const useArticleStore = defineStore('article', {
 				this.detailLoading = false
 			}
 		}
-	},
-	getters: {
-		// audios: (state) => state.audios,
-		// audioKeys: (state) => state.audioKeys
 	},
 });
