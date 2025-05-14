@@ -80,6 +80,7 @@ export const useArticleStore = defineStore('article', {
 							}
 						}
 					})
+					this.detailLoading = false;
 					if (result.success) {
 						const cleanHtml = sanitizeHtml(result.data, {
 							allowedTags: false,
@@ -90,11 +91,12 @@ export const useArticleStore = defineStore('article', {
 							allowedAttributes: false,
 							allowVulnerableTags: true, // 明确允许危险标签
 						});
-						this.detailLoading = false;
 						this.html = cleanHtml
 					} else {
 						this.html = ''
 					}
+				} else {
+					this.detailLoading = false;
 				}
 			} catch {
 				this.detailLoading = false

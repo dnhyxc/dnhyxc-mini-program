@@ -53,7 +53,6 @@ const useCodeStore = common_vendor.defineStore("code", {
             id
           }
         });
-        this.detailLoading = false;
         if (res.success) {
           this.detail = res.data;
           const result = await server_index.request({
@@ -70,6 +69,7 @@ ${res.data.content}
               }
             }
           });
+          this.detailLoading = false;
           if (result.success) {
             const cleanHtml = common_vendor.sanitizeHtml(result.data, {
               allowedTags: false,
@@ -81,11 +81,12 @@ ${res.data.content}
               allowVulnerableTags: true
               // 明确允许危险标签
             });
-            this.detailLoading = false;
             this.html = cleanHtml;
           } else {
             this.html = "";
           }
+        } else {
+          this.detailLoading = false;
         }
       } catch {
         this.detailLoading = false;

@@ -49,12 +49,12 @@
   width: 60px;
   height: 60px;
   border-radius: 60px;
+  margin-right: 10px;
 }
 .detail-wrap .title-wrap .user-info .create-info.data-v-2fd5b0a7 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 10px;
 }
 .detail-wrap .title-wrap .user-info .create-info .username.data-v-2fd5b0a7 {
   display: flex;
@@ -179,6 +179,10 @@
 .hint .alert-title,
 	.hint .alert-content {
 		color: #009688;
+}
+.custom-alert-header {
+		border-radius: 5px;
+		padding: 5px;
 }
 .info {
 		background-color: #e3e3e3;

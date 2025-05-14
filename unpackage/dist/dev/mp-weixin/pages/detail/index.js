@@ -20,6 +20,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       const articleId = !["undefined", "null"].includes(id) ? id : options == null ? void 0 : options.id;
       await articleStore.getDetail(articleId);
     });
+    const onHeadImgError = () => {
+      articleStore.detail.headUrl = "";
+    };
+    const onCoverImgError = () => {
+      articleStore.detail.coverImage = "";
+    };
     return (_ctx, _cache) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v;
       return common_vendor.e({
@@ -35,17 +41,19 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         c: common_vendor.t((_b = (_a = common_vendor.unref(articleStore)) == null ? void 0 : _a.detail) == null ? void 0 : _b.title),
         d: (_d = (_c = common_vendor.unref(articleStore)) == null ? void 0 : _c.detail) == null ? void 0 : _d.headUrl
       }, ((_f = (_e = common_vendor.unref(articleStore)) == null ? void 0 : _e.detail) == null ? void 0 : _f.headUrl) ? {
-        e: (_h = (_g = common_vendor.unref(articleStore)) == null ? void 0 : _g.detail) == null ? void 0 : _h.headUrl
+        e: (_h = (_g = common_vendor.unref(articleStore)) == null ? void 0 : _g.detail) == null ? void 0 : _h.headUrl,
+        f: common_vendor.o(onHeadImgError)
       } : {}, {
-        f: common_vendor.t((_j = (_i = common_vendor.unref(articleStore)) == null ? void 0 : _i.detail) == null ? void 0 : _j.authorName),
-        g: common_vendor.t(common_vendor.unref(utils_index.formatDate)((_l = (_k = common_vendor.unref(articleStore)) == null ? void 0 : _k.detail) == null ? void 0 : _l.createTime, "YYYY年MM月DD日 HH:mm")),
-        h: common_vendor.t((_n = (_m = common_vendor.unref(articleStore)) == null ? void 0 : _m.detail) == null ? void 0 : _n.readCount),
-        i: (_p = (_o = common_vendor.unref(articleStore)) == null ? void 0 : _o.detail) == null ? void 0 : _p.coverImage
+        g: common_vendor.t((_j = (_i = common_vendor.unref(articleStore)) == null ? void 0 : _i.detail) == null ? void 0 : _j.authorName),
+        h: common_vendor.t(common_vendor.unref(utils_index.formatDate)((_l = (_k = common_vendor.unref(articleStore)) == null ? void 0 : _k.detail) == null ? void 0 : _l.createTime, "YYYY年MM月DD日 HH:mm")),
+        i: common_vendor.t((_n = (_m = common_vendor.unref(articleStore)) == null ? void 0 : _m.detail) == null ? void 0 : _n.readCount),
+        j: (_p = (_o = common_vendor.unref(articleStore)) == null ? void 0 : _o.detail) == null ? void 0 : _p.coverImage
       }, ((_r = (_q = common_vendor.unref(articleStore)) == null ? void 0 : _q.detail) == null ? void 0 : _r.coverImage) ? {
-        j: (_t = (_s = common_vendor.unref(articleStore)) == null ? void 0 : _s.detail) == null ? void 0 : _t.coverImage
+        k: (_t = (_s = common_vendor.unref(articleStore)) == null ? void 0 : _s.detail) == null ? void 0 : _t.coverImage,
+        l: common_vendor.o(onCoverImgError)
       } : {}, {
-        k: (_v = (_u = common_vendor.unref(articleStore)) == null ? void 0 : _u.detail) == null ? void 0 : _v.abstract,
-        l: common_vendor.p({
+        m: (_v = (_u = common_vendor.unref(articleStore)) == null ? void 0 : _u.detail) == null ? void 0 : _v.abstract,
+        n: common_vendor.p({
           content: common_vendor.unref(articleStore).html
         })
       }));

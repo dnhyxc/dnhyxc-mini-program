@@ -33,7 +33,7 @@ export const useCodeStore = defineStore('code', {
 			this.total = 0
 			this.codeList = []
 		},
-		async getCodeList(keyword? : string) {
+		async getCodeList(keyword ?: string) {
 			try {
 				if (this.codeList.length !== 0 && this.codeList.length >= this.total) return;
 				this.pageNo = this.pageNo + 1;
@@ -65,7 +65,6 @@ export const useCodeStore = defineStore('code', {
 						id
 					}
 				})
-				this.detailLoading = false;
 				if (res.success) {
 					this.detail = res.data
 					const result = await request<{ data : string, success : boolean }>({
@@ -78,6 +77,7 @@ export const useCodeStore = defineStore('code', {
 							}
 						}
 					})
+					this.detailLoading = false;
 					if (result.success) {
 						const cleanHtml = sanitizeHtml(result.data, {
 							allowedTags: false,
@@ -88,11 +88,12 @@ export const useCodeStore = defineStore('code', {
 							allowedAttributes: false,
 							allowVulnerableTags: true, // 明确允许危险标签
 						});
-						this.detailLoading = false;
 						this.html = cleanHtml
 					} else {
 						this.html = ''
 					}
+				} else {
+					this.detailLoading = false;
 				}
 			} catch {
 				this.detailLoading = false

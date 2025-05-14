@@ -6,7 +6,8 @@
 		<div class="title-wrap">
 			<div class="title">{{ articleStore?.detail?.title }}</div>
 			<div class="user-info">
-				<image v-if="articleStore?.detail?.headUrl" :src="articleStore?.detail?.headUrl" class="herd-img" />
+				<image v-if="articleStore?.detail?.headUrl" :src="articleStore?.detail?.headUrl" class="herd-img"
+					@error="onHeadImgError" />
 				<div class="create-info">
 					<div class="username">
 						<span>{{ articleStore?.detail?.authorName }}</span>
@@ -17,7 +18,8 @@
 					</div>
 				</div>
 			</div>
-			<image v-if="articleStore?.detail?.coverImage" :src="articleStore?.detail?.coverImage" class="image" />
+			<image v-if="articleStore?.detail?.coverImage" :src="articleStore?.detail?.coverImage" class="image"
+				@error="onCoverImgError" />
 			<p class="desc" v-html="articleStore?.detail?.abstract" />
 		</div>
 		<mp-html :content="articleStore.html" style="line-height: 2em;" />
@@ -42,6 +44,14 @@
 		const articleId = !['undefined', 'null'].includes(id) ? id : options?.id
 		await articleStore.getDetail(articleId);
 	});
+
+	const onHeadImgError = () => {
+		articleStore.detail.headUrl = ''
+	}
+
+	const onCoverImgError = () => {
+		articleStore.detail.coverImage = ''
+	}
 </script>
 
 <style scoped lang="scss">
@@ -75,13 +85,13 @@
 					width: 60px;
 					height: 60px;
 					border-radius: 60px;
+					margin-right: 10px;
 				}
 
 				.create-info {
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
-					margin-left: 10px;
 
 					.username {
 						display: flex;
@@ -240,6 +250,11 @@
 	.hint .alert-title,
 	.hint .alert-content {
 		color: #009688;
+	}
+
+	.custom-alert-header {
+		border-radius: 5px;
+		padding: 5px;
 	}
 
 	.info {
