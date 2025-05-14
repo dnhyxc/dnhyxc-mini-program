@@ -206,11 +206,11 @@
 				.title-text {
 					flex: 1;
 					font-size: 16px;
-					height: 100%;
-					padding: 10px 0;
+					height: 50px;
+					line-height: 50px;
 					font-weight: 700;
 					margin-right: 10px;
-					@include ellipsis;
+					@include ellipsisMore(1);
 				}
 
 				.language {

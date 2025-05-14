@@ -107,13 +107,18 @@
 .code-wrap .code-item .info .title-text.data-v-ae92b765 {
   flex: 1;
   font-size: 16px;
-  height: 100%;
-  padding: 10px 0;
+  height: 50px;
+  line-height: 50px;
   font-weight: 700;
   margin-right: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+  line-clamp: 1;
+  vertical-align: middle;
 }
 .code-wrap .code-item .info .language.data-v-ae92b765 {
   font-size: 16px;
