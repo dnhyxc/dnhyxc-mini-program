@@ -18,8 +18,9 @@ const useCodeStore = common_vendor.defineStore("code", {
       this.pageNo = 0;
       this.pageSize = 20;
       this.total = 0;
+      this.codeList = [];
     },
-    async getCodeList() {
+    async getCodeList(keyword) {
       try {
         if (this.codeList.length !== 0 && this.codeList.length >= this.total)
           return;
@@ -30,6 +31,7 @@ const useCodeStore = common_vendor.defineStore("code", {
           data: {
             pageNo: this.pageNo,
             pageSize: this.pageSize,
+            keyword,
             all: true
           }
         });
@@ -58,7 +60,8 @@ const useCodeStore = common_vendor.defineStore("code", {
             url: `${constant_index.apiUrl}/md2html`,
             data: {
               content: `\`\`\`${res.data.language}
-${res.data.content}\`\`\``,
+${res.data.content}
+\`\`\``,
               options: {
                 needKatex: false,
                 // 是否需要转译数学公式

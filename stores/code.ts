@@ -31,8 +31,9 @@ export const useCodeStore = defineStore('code', {
 			this.pageNo = 0
 			this.pageSize = 20
 			this.total = 0
+			this.codeList = []
 		},
-		async getCodeList() {
+		async getCodeList(keyword? : string) {
 			try {
 				if (this.codeList.length !== 0 && this.codeList.length >= this.total) return;
 				this.pageNo = this.pageNo + 1;
@@ -42,6 +43,7 @@ export const useCodeStore = defineStore('code', {
 					data: {
 						pageNo: this.pageNo,
 						pageSize: this.pageSize,
+						keyword,
 						all: true
 					}
 				})
@@ -69,7 +71,7 @@ export const useCodeStore = defineStore('code', {
 					const result = await request<{ data : string, success : boolean }>({
 						url: `${apiUrl}/md2html`,
 						data: {
-							content: `\`\`\`${res.data.language}\n${res.data.content}\`\`\``,
+							content: `\`\`\`${res.data.language}\n${res.data.content}\n\`\`\``,
 							options: {
 								needKatex: false, // 是否需要转译数学公式
 								lineNumber: true // 是否开启代码块行号

@@ -20,7 +20,7 @@ const useArticleStore = common_vendor.defineStore("article", {
       this.total = 0;
       this.articleList = [];
     },
-    async getArticleList() {
+    async getArticleList(filter) {
       try {
         if (this.articleList.length !== 0 && this.articleList.length >= this.total)
           return;
@@ -29,6 +29,7 @@ const useArticleStore = common_vendor.defineStore("article", {
         const res = await server_index.request({
           url: `${constant_index.apiUrl}/articleList`,
           data: {
+            filter,
             pageNo: this.pageNo,
             pageSize: this.pageSize
           }

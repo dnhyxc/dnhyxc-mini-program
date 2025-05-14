@@ -3,7 +3,11 @@
 		<div v-if="articleStore.loading" class="loading">
 			<u-loading-icon vertical size="38" text="正在加载中" color="#5782ff"></u-loading-icon>
 		</div>
-		<u-list lowerThreshold="10" @scrolltolower="scrolltolower">
+		<div class="search">
+			<u-search v-model="keyword" placeholder="输入标题搜索" shape="square" height="40px" :clearabled="true"
+				:showAction="false" @search="onSearch" @clear="onClear"></u-search>
+		</div>
+		<u-list lowerThreshold="10" height="calc(100vh - 50px)" @scrolltolower="scrolltolower">
 			<u-list-item v-for="(item, index) in articleStore.articleList" :key="index">
 				<div class="article-item" @click="toDetail(item)">
 					<div class="image-wrap">
@@ -21,11 +25,13 @@
 </template>
 
 <script setup lang="ts">
-	import { onMounted, computed } from 'vue';
+	import { ref, onMounted, computed } from 'vue';
 	import { useArticleStore } from '../../stores/article'
 	import { ArticleItem } from '../../typings';
 
 	const articleStore = useArticleStore()
+
+	const keyword = ref('')
 
 	const noMore = computed(() => {
 		const { total, articleList, pageSize } = articleStore
@@ -40,9 +46,20 @@
 		loadMore();
 	}
 
-	const loadMore = async () => {
-		await articleStore.getArticleList()
+	const loadMore = async (keyword ?: string) => {
+		await articleStore.getArticleList(keyword)
 	}
+
+	const onSearch = async (value : string) => {
+		articleStore.init()
+		await loadMore(value)
+	}
+
+	const onClear = async () => {
+		articleStore.init()
+		await loadMore()
+	}
+
 
 	const toDetail = (item : ArticleItem) => {
 		// @ts-ignore
@@ -61,6 +78,14 @@
 		box-sizing: border-box;
 		background-color: $bg;
 		min-height: 100vh;
+
+		.search {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			box-sizing: border-box;
+		}
 
 		.loading {
 			position: absolute;

@@ -2,32 +2,39 @@
 	<div v-if="codeStore.detailLoading" class="detail-wrap-loading">
 		<u-loading-icon vertical size="38" text="正在加载中" color="#5782ff"></u-loading-icon>
 	</div>
-	<scroll-view v-else :scroll-into-view="scrollIntoId" :scroll-into-view-offset="0" enable-flex class="detail-wrap"
-		ref="scrollRef" scroll-y="true" enable-passive @scroll="onScroll">
-		<div class="title">{{codeStore.detail.title}}</div>
-		<mp-html :content="codeStore.detail.abstract" style="line-height: 2em;" />
-		<mp-html :content="codeStore.html" style="line-height: 2em;" />
+	<scroll-view v-else enable-back-to-top enable-flex enable-passive class="detail-wrap" scroll-y="true">
+		<div class=" title">{{ codeStore.detail.title }}</div>
+		<mp-html :content="processedAbstract" style="line-height: 2em" />
+		<mp-html :content="codeStore.html" style="line-height: 2em" />
 	</scroll-view>
 </template>
 
 <script setup lang="ts">
-	import { ref } from "vue";
+	import { ref, computed } from "vue";
 	// @ts-ignore
 	import { onLoad } from "@dcloudio/uni-app";
 	import { useCodeStore } from "../../stores/code";
 	// @ts-ignore
-	import mpHtml from '@/components/mp-html/mp-html.vue'
+	import mpHtml from "@/components/mp-html/mp-html.vue";
 
 	const codeStore = useCodeStore();
 
 	const scrollIntoId = ref<string>("");
 	const scrollTop = ref<number>(0);
 
+	const processedAbstract = computed(() => {
+		if (!codeStore.detail.abstract) return "";
+		return codeStore.detail.abstract.replace(
+			/<code([^>]*)>/g,
+			'<code$1 class="hljs-inline">'
+		);
+	});
+
 	// 通过 options 获取路由跳转携带的参数
 	onLoad(async (options) => {
 		// 获取扫码进入的 scene 参数
 		const id = decodeURIComponent(options.scene);
-		const codeId = !['undefined', 'null'].includes(id) ? id : options?.id
+		const codeId = !["undefined", "null"].includes(id) ? id : options?.id;
 		await codeStore.getCodeById(codeId);
 	});
 
@@ -158,6 +165,10 @@
 		color: #abb2bf;
 		background: #282c34;
 		padding-right: 10px;
+	}
+
+	.hl-pre {
+		border-radius: 5px;
 	}
 
 	.hljs-inline {

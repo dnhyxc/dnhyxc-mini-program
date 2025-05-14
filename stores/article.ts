@@ -36,7 +36,7 @@ export const useArticleStore = defineStore('article', {
 			this.total = 0
 			this.articleList = []
 		},
-		async getArticleList() {
+		async getArticleList(filter ?: string) {
 			try {
 				if (this.articleList.length !== 0 && this.articleList.length >= this.total) return;
 				this.pageNo = this.pageNo + 1;
@@ -44,6 +44,7 @@ export const useArticleStore = defineStore('article', {
 				const res = await request<{ data : { list : ArticleItem[], total : number }, success : boolean }>({
 					url: `${apiUrl}/articleList`,
 					data: {
+						filter,
 						pageNo: this.pageNo,
 						pageSize: this.pageSize
 					}

@@ -122,6 +122,9 @@
 		background: #282c34;
 		padding-right: 10px;
 }
+.hl-pre {
+		border-radius: 5px;
+}
 .hljs-inline {
 		color: #2bb91b;
 		line-height: 1em;

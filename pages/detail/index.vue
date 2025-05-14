@@ -2,8 +2,24 @@
 	<div v-if="articleStore.detailLoading" class="detail-wrap-loading">
 		<u-loading-icon vertical size="38" text="正在加载中" color="#5782ff"></u-loading-icon>
 	</div>
-	<scroll-view v-else :scroll-into-view="scrollIntoId" :scroll-into-view-offset="0" enable-flex class="detail-wrap"
-		ref="scrollRef" scroll-y="true" enable-passive @scroll="onScroll">
+	<scroll-view v-else enable-back-to-top enable-flex enable-passive class="detail-wrap" scroll-y="true">
+		<div class="title-wrap">
+			<div class="title">{{ articleStore?.detail?.title }}</div>
+			<div class="user-info">
+				<image v-if="articleStore?.detail?.headUrl" :src="articleStore?.detail?.headUrl" class="herd-img" />
+				<div class="create-info">
+					<div class="username">
+						<span>{{ articleStore?.detail?.authorName }}</span>
+					</div>
+					<div>
+						<span>{{ formatDate(articleStore?.detail?.createTime!, 'YYYY年MM月DD日 HH:mm') }}</span>
+						<span class="read-count">阅读 {{ articleStore?.detail?.readCount }}</span>
+					</div>
+				</div>
+			</div>
+			<image v-if="articleStore?.detail?.coverImage" :src="articleStore?.detail?.coverImage" class="image" />
+			<p class="desc" v-html="articleStore?.detail?.abstract" />
+		</div>
 		<mp-html :content="articleStore.html" style="line-height: 2em;" />
 	</scroll-view>
 </template>
@@ -13,13 +29,11 @@
 	// @ts-ignore
 	import { onLoad } from "@dcloudio/uni-app";
 	import { useArticleStore } from "../../stores/article";
+	import { formatDate } from '../../utils'
 	// @ts-ignore
 	import mpHtml from '@/components/mp-html/mp-html.vue'
 
 	const articleStore = useArticleStore();
-
-	const scrollIntoId = ref<string>("");
-	const scrollTop = ref<number>(0);
 
 	// 通过 options 获取路由跳转携带的参数
 	onLoad(async (options) => {
@@ -28,12 +42,98 @@
 		const articleId = !['undefined', 'null'].includes(id) ? id : options?.id
 		await articleStore.getDetail(articleId);
 	});
-
-	const onScroll = (e : any) => {
-		scrollIntoId.value = "";
-		scrollTop.value = e.detail.scrollTop;
-	};
 </script>
+
+<style scoped lang="scss">
+	@import "@/styles/index.scss";
+
+	.detail-wrap {
+		background-color: $bg;
+		padding: 15px;
+		box-sizing: border-box;
+		min-height: 100vh;
+
+
+		.title-wrap {
+			width: 100%;
+			box-sizing: border-box;
+
+			.title {
+				font-size: 20px;
+				font-weight: 600;
+				margin-bottom: 15px;
+				word-break: break-all;
+			}
+
+			.user-info {
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				margin-bottom: 20px;
+
+				.herd-img {
+					width: 60px;
+					height: 60px;
+					border-radius: 60px;
+				}
+
+				.create-info {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					margin-left: 10px;
+
+					.username {
+						display: flex;
+						align-items: center;
+						font-size: 16px;
+						font-weight: 600;
+						margin-bottom: 10px;
+					}
+
+					.read-count {
+						margin: 0 15px;
+					}
+				}
+			}
+
+			.image {
+				width: 100%;
+				height: 180px;
+				object-fit: cover;
+				border-radius: 5px;
+			}
+
+			.desc {
+				margin-top: 10px;
+				margin-bottom: 30px;
+				white-space: pre-wrap;
+				color: #282c34;
+				font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+					Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+				-webkit-font-smoothing: antialiased;
+			}
+		}
+
+	}
+
+	.detail-wrap-loading {
+		height: 100vh;
+		background: $bg-color;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		:deep {
+			.u-loading-icon__text {
+				font-size: 18px !important;
+				color: #5782ff !important;
+				margin-top: 15px !important;
+			}
+		}
+	}
+</style>
 
 <style>
 	/* 
@@ -392,33 +492,5 @@
 
 	.hljs-link {
 		text-decoration: underline;
-	}
-</style>
-
-<style scoped lang="scss">
-	@import "@/styles/index.scss";
-
-	.detail-wrap {
-		background-color: $bg;
-		padding: 15px;
-		box-sizing: border-box;
-		min-height: 100vh;
-	}
-
-	.detail-wrap-loading {
-		height: 100vh;
-		background: $bg-color;
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		:deep {
-			.u-loading-icon__text {
-				font-size: 18px !important;
-				color: #5782ff !important;
-				margin-top: 15px !important;
-			}
-		}
 	}
 </style>

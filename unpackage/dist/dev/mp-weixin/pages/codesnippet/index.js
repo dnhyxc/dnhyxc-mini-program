@@ -14,17 +14,21 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
     const codeStore = stores_code.useCodeStore();
-    const scrollIntoId = common_vendor.ref("");
-    const scrollTop = common_vendor.ref(0);
+    common_vendor.ref("");
+    common_vendor.ref(0);
+    const processedAbstract = common_vendor.computed(() => {
+      if (!codeStore.detail.abstract)
+        return "";
+      return codeStore.detail.abstract.replace(
+        /<code([^>]*)>/g,
+        '<code$1 class="hljs-inline">'
+      );
+    });
     common_vendor.onLoad(async (options) => {
       const id = decodeURIComponent(options.scene);
       const codeId = !["undefined", "null"].includes(id) ? id : options == null ? void 0 : options.id;
       await codeStore.getCodeById(codeId);
     });
-    const onScroll = (e) => {
-      scrollIntoId.value = "";
-      scrollTop.value = e.detail.scrollTop;
-    };
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: common_vendor.unref(codeStore).detailLoading
@@ -38,13 +42,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       } : {
         c: common_vendor.t(common_vendor.unref(codeStore).detail.title),
         d: common_vendor.p({
-          content: common_vendor.unref(codeStore).detail.abstract
+          content: processedAbstract.value
         }),
         e: common_vendor.p({
           content: common_vendor.unref(codeStore).html
-        }),
-        f: scrollIntoId.value,
-        g: common_vendor.o(onScroll)
+        })
       });
     };
   }

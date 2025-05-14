@@ -3,10 +3,18 @@
 		<div v-if="codeStore.loading" class="loading">
 			<u-loading-icon vertical size="38" text="正在加载中" color="#5782ff"></u-loading-icon>
 		</div>
-		<u-list lowerThreshold="10" @scrolltolower="scrolltolower">
+		<div class="search">
+			<u-search v-model="keyword" placeholder="输入标题搜索" shape="square" height="40px" :clearabled="true"
+				:showAction="false" @search="onSearch" @clear="onClear"></u-search>
+		</div>
+		<u-list lowerThreshold="10" height="calc(100vh - 50px)" :enable-flex="true" @scrolltolower="scrolltolower">
 			<u-list-item v-for="(item, index) in codeStore.codeList" :key="index">
-				<u-cell :title="item.title" @click="toDetail(item)">
-				</u-cell>
+				<div class="code-item" @click="toDetail(item)">
+					<div class="info">
+						<div class="title-text">{{item.title}}</div>
+						<div class="language">{{item.language}}</div>
+					</div>
+				</div>
 			</u-list-item>
 			<div v-if="noMore" class="no-more">没有更多了</div>
 		</u-list>
@@ -14,11 +22,13 @@
 </template>
 
 <script setup lang="ts">
-	import { onMounted, computed } from 'vue';
+	import { ref, onMounted, computed } from 'vue';
 	import { useCodeStore } from '../../stores/code'
 	import { CodeItem } from '../../typings';
 
 	const codeStore = useCodeStore()
+
+	const keyword = ref('')
 
 	const noMore = computed(() => {
 		const { total, codeList, pageSize } = codeStore
@@ -26,21 +36,31 @@
 	})
 
 	onMounted(() => {
-		loadMore();
+		loadMore()
 	})
 
 	const scrolltolower = () => {
-		loadMore();
+		loadMore()
 	}
 
-	const loadMore = async () => {
-		await codeStore.getCodeList()
+	const loadMore = async (keywrod ?: string) => {
+		await codeStore.getCodeList(keywrod)
+	}
+
+	const onSearch = async (value : string) => {
+		codeStore.init()
+		await loadMore(value)
+	}
+
+	const onClear = async () => {
+		codeStore.init()
+		await loadMore()
 	}
 
 	const toDetail = (item : CodeItem) => {
 		// @ts-ignore
 		uni.navigateTo({
-			url: `/pages/codesnippet/index?id=${item.id}` // 注意斜杠开头
+			url: `/pages/codesnippet/index?id=${item.id}`
 		});
 	}
 </script>
@@ -54,6 +74,14 @@
 		box-sizing: border-box;
 		background-color: $bg;
 		min-height: 100vh;
+
+		.search {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			box-sizing: border-box;
+		}
 
 		.loading {
 			position: absolute;
@@ -78,18 +106,29 @@
 		.code-item {
 			display: flex;
 			align-items: center;
-			padding: 10px 0;
 			box-sizing: border-box;
-			border-bottom: 1px solid red;
+			border-bottom: 1px solid $bc;
 
 			.info {
 				flex: 1;
 				display: flex;
-				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 5px;
 
-				.title {
+				.title-text {
+					flex: 1;
 					font-size: 16px;
+					height: 100%;
+					padding: 10px 0;
 					font-weight: 700;
+					margin-right: 10px;
+					@include ellipsis;
+				}
+
+				.language {
+					font-size: 16px;
+					color: #333;
 					@include ellipsis;
 				}
 			}
