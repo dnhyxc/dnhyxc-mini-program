@@ -34,8 +34,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
+  height: 55px;
   box-sizing: border-box;
+  padding-bottom: 5px;
 }
 .home-wrap .loading.data-v-1cf27b2a {
   position: absolute;
@@ -84,7 +85,12 @@
   margin-bottom: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+  line-clamp: 1;
+  vertical-align: middle;
 }
 .home-wrap .article-item .info .desc.data-v-1cf27b2a {
   font-size: 14px;

@@ -25202,6 +25202,7 @@ exports.n = n;
 exports.o = o;
 exports.onLoad = onLoad;
 exports.onMounted = onMounted;
+exports.onUnmounted = onUnmounted;
 exports.p = p;
 exports.props = props$4;
 exports.props$1 = props$3;

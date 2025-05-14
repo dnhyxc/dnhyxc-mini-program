@@ -27,6 +27,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onMounted(() => {
       loadMore();
     });
+    common_vendor.onUnmounted(() => {
+      articleStore.init();
+    });
     const scrolltolower = () => {
       loadMore();
     };
@@ -84,7 +87,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         i: common_vendor.o(scrolltolower),
         j: common_vendor.p({
           lowerThreshold: "10",
-          height: "calc(100vh - 50px)"
+          height: "calc(100vh - 55px)"
         })
       });
     };

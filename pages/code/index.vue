@@ -14,7 +14,7 @@
 				</div>
 			</div>
 		</div>
-		<u-list lowerThreshold="10" height="calc(100vh - 100px)" :enable-flex="true" @scrolltolower="scrolltolower">
+		<u-list lowerThreshold="10" height="calc(100vh - 95px)" :enable-flex="true" @scrolltolower="scrolltolower">
 			<u-list-item v-for="(item, index) in codeStore.codeList" :key="index">
 				<div class="code-item" @click="toDetail(item)">
 					<div class="info">
@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, computed } from "vue";
+	import { ref, onMounted, computed, onUnmounted } from "vue";
 	import { useCodeStore } from "../../stores/code";
 	import { CodeItem } from "../../typings";
 
@@ -69,6 +69,10 @@
 	onMounted(() => {
 		loadMore();
 	});
+
+	onUnmounted(() => {
+		codeStore.init()
+	})
 
 	const scrolltolower = () => {
 		loadMore();
@@ -116,15 +120,17 @@
 			display: flex;
 			justify-content: flex-start;
 			flex-direction: column;
-			height: 100px;
+			height: 95px;
 			box-sizing: border-box;
 			padding-bottom: 10px;
 
 			.code-type-list {
 				display: flex;
 				height: 30px;
+				min-height: 30px;
 				border-radius: 5px;
 				background-color: #f2f2f2;
+				margin-top: 5px;
 				overflow: hidden;
 
 				.code-type-item {

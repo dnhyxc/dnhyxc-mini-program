@@ -2,7 +2,8 @@
 	<div v-if="articleStore.detailLoading" class="detail-wrap-loading">
 		<u-loading-icon vertical size="38" text="正在加载中" color="#5782ff"></u-loading-icon>
 	</div>
-	<scroll-view v-else enable-back-to-top enable-flex enable-passive class="detail-wrap" scroll-y="true">
+	<scroll-view v-else :enable-back-to-top="true" :enable-flex="true" :enable-passive="true" class="detail-wrap"
+		scroll-y="true">
 		<div class="title-wrap">
 			<div class="title">{{ articleStore?.detail?.title }}</div>
 			<div class="user-info">

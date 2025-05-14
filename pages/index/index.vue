@@ -7,7 +7,7 @@
 			<u-search v-model="keyword" placeholder="输入标题搜索" shape="square" height="40px" :clearabled="true"
 				:showAction="false" @search="onSearch" @clear="onClear"></u-search>
 		</div>
-		<u-list lowerThreshold="10" height="calc(100vh - 50px)" @scrolltolower="scrolltolower">
+		<u-list lowerThreshold="10" height="calc(100vh - 55px)" @scrolltolower="scrolltolower">
 			<u-list-item v-for="(item, index) in articleStore.articleList" :key="index">
 				<div class="article-item" @click="toDetail(item)">
 					<div class="image-wrap">
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, computed } from 'vue';
+	import { ref, onMounted, computed, onUnmounted } from 'vue';
 	import { useArticleStore } from '../../stores/article'
 	import { ArticleItem } from '../../typings';
 
@@ -40,6 +40,10 @@
 
 	onMounted(() => {
 		loadMore();
+	})
+
+	onUnmounted(() => {
+		articleStore.init()
 	})
 
 	const scrolltolower = () => {
@@ -83,8 +87,9 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			height: 50px;
+			height: 55px;
 			box-sizing: border-box;
+			padding-bottom: 5px;
 		}
 
 		.loading {
@@ -138,7 +143,7 @@
 					font-size: 16px;
 					font-weight: 700;
 					margin-bottom: 10px;
-					@include ellipsis;
+					@include ellipsisMore(1);
 				}
 
 				.desc {
