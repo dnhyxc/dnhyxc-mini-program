@@ -82,7 +82,6 @@
 }
 .detail-wrap-loading.data-v-2fd5b0a7 {
   height: 100vh;
-  background: #fff;
   box-sizing: border-box;
   display: flex;
   align-items: center;

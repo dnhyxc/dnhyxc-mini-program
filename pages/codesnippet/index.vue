@@ -74,7 +74,6 @@
 
 	.detail-wrap-loading {
 		height: 100vh;
-		background: $bg-color;
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;

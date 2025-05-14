@@ -44,7 +44,6 @@
 }
 .detail-wrap-loading.data-v-fe1e7331 {
   height: 100vh;
-  background: #fff;
   box-sizing: border-box;
   display: flex;
   align-items: center;
