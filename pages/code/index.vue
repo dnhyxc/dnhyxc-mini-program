@@ -6,13 +6,20 @@
 		<div class="search">
 			<u-search v-model="keyword" placeholder="输入标题搜索" shape="square" height="40px" :clearabled="true"
 				:showAction="false" @search="onSearch" @clear="onClear"></u-search>
+			<div class="code-type-list">
+				<div v-for="item in codeTypes" :key="item.key" class="code-type-item">
+					<div :class="`code-type ${langType === item.value ? 'active' : ''}`" @click="onActive(item)">
+						{{ item.key }}
+					</div>
+				</div>
+			</div>
 		</div>
-		<u-list lowerThreshold="10" height="calc(100vh - 50px)" :enable-flex="true" @scrolltolower="scrolltolower">
+		<u-list lowerThreshold="10" height="calc(100vh - 100px)" :enable-flex="true" @scrolltolower="scrolltolower">
 			<u-list-item v-for="(item, index) in codeStore.codeList" :key="index">
 				<div class="code-item" @click="toDetail(item)">
 					<div class="info">
-						<div class="title-text">{{item.title}}</div>
-						<div class="language">{{item.language}}</div>
+						<div class="title-text">{{ item.title }}</div>
+						<div class="language">{{ item.language }}</div>
 					</div>
 				</div>
 			</u-list-item>
@@ -22,51 +29,81 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, computed } from 'vue';
-	import { useCodeStore } from '../../stores/code'
-	import { CodeItem } from '../../typings';
+	import { ref, onMounted, computed } from "vue";
+	import { useCodeStore } from "../../stores/code";
+	import { CodeItem } from "../../typings";
 
-	const codeStore = useCodeStore()
+	const codeStore = useCodeStore();
 
-	const keyword = ref('')
+	const keyword = ref("");
+	const langType = ref("");
+
+	const codeTypes = [
+		{
+			key: "全部",
+			value: "",
+		},
+		{
+			key: "html",
+			value: "html",
+		},
+		{
+			key: "js",
+			value: "javascript",
+		},
+		{
+			key: "python",
+			value: "python",
+		},
+		{
+			key: "c",
+			value: "c",
+		},
+	];
 
 	const noMore = computed(() => {
-		const { total, codeList, pageSize } = codeStore
-		return codeList.length >= total && codeList.length && total > pageSize
-	})
+		const { total, codeList, pageSize } = codeStore;
+		return codeList.length >= total && codeList.length && total > pageSize;
+	});
 
 	onMounted(() => {
-		loadMore()
-	})
+		loadMore();
+	});
 
 	const scrolltolower = () => {
-		loadMore()
-	}
+		loadMore();
+	};
 
-	const loadMore = async (keywrod ?: string) => {
-		await codeStore.getCodeList(keywrod)
-	}
+	const loadMore = async () => {
+		await codeStore.getCodeList(keyword.value, langType.value);
+	};
 
-	const onSearch = async (value : string) => {
-		codeStore.init()
-		await loadMore(value)
-	}
+	const onActive = async (item : { key : string; value : string }) => {
+		langType.value = item.value;
+		codeStore.init();
+		await loadMore();
+	};
+
+	const onSearch = async () => {
+		codeStore.init();
+		await loadMore();
+	};
 
 	const onClear = async () => {
-		codeStore.init()
-		await loadMore()
-	}
+		codeStore.init();
+		await loadMore();
+	};
 
 	const toDetail = (item : CodeItem) => {
 		// @ts-ignore
 		uni.navigateTo({
-			url: `/pages/codesnippet/index?id=${item.id}`
+			url: `/pages/codesnippet/index?id=${item.id}`,
 		});
-	}
+	};
 </script>
 
 <style scoped lang="scss">
-	@import '@/styles/index.scss';
+	@import "@/styles/index.scss";
 
 	.code-wrap {
 		position: relative;
@@ -77,10 +114,55 @@
 
 		.search {
 			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 50px;
+			justify-content: flex-start;
+			flex-direction: column;
+			height: 100px;
 			box-sizing: border-box;
+			padding-bottom: 10px;
+
+			.code-type-list {
+				display: flex;
+				height: 30px;
+				border-radius: 5px;
+				background-color: #f2f2f2;
+				overflow: hidden;
+
+				.code-type-item {
+					display: flex;
+					flex: 1;
+					height: 100%;
+
+					&::after {
+						content: '';
+						height: 20px;
+						margin-top: 5px;
+						width: 1px;
+						display: inline-block;
+						background-color: $bc;
+					}
+
+					&:last-child {
+						&::after {
+							content: none;
+						}
+					}
+
+					.code-type {
+						flex: 1;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						text-align: center;
+						height: 100%;
+						transition: all 0.3s ease-in-out;
+					}
+
+					.active {
+						background-color: #5782ff;
+						color: #fff;
+					}
+				}
+			}
 		}
 
 		.loading {

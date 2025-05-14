@@ -20,7 +20,7 @@ const useCodeStore = common_vendor.defineStore("code", {
       this.total = 0;
       this.codeList = [];
     },
-    async getCodeList(keyword) {
+    async getCodeList(keyword, langType) {
       try {
         if (this.codeList.length !== 0 && this.codeList.length >= this.total)
           return;
@@ -32,6 +32,7 @@ const useCodeStore = common_vendor.defineStore("code", {
             pageNo: this.pageNo,
             pageSize: this.pageSize,
             keyword,
+            langType,
             all: true
           }
         });

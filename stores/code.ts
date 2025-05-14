@@ -33,7 +33,7 @@ export const useCodeStore = defineStore('code', {
 			this.total = 0
 			this.codeList = []
 		},
-		async getCodeList(keyword ?: string) {
+		async getCodeList(keyword ?: string, langType ?: string) {
 			try {
 				if (this.codeList.length !== 0 && this.codeList.length >= this.total) return;
 				this.pageNo = this.pageNo + 1;
@@ -44,6 +44,7 @@ export const useCodeStore = defineStore('code', {
 						pageNo: this.pageNo,
 						pageSize: this.pageSize,
 						keyword,
+						langType,
 						all: true
 					}
 				})

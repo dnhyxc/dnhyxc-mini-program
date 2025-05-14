@@ -20,6 +20,29 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
     const codeStore = stores_code.useCodeStore();
     const keyword = common_vendor.ref("");
+    const langType = common_vendor.ref("");
+    const codeTypes = [
+      {
+        key: "全部",
+        value: ""
+      },
+      {
+        key: "html",
+        value: "html"
+      },
+      {
+        key: "js",
+        value: "javascript"
+      },
+      {
+        key: "python",
+        value: "python"
+      },
+      {
+        key: "c",
+        value: "c"
+      }
+    ];
     const noMore = common_vendor.computed(() => {
       const { total, codeList, pageSize } = codeStore;
       return codeList.length >= total && codeList.length && total > pageSize;
@@ -30,12 +53,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const scrolltolower = () => {
       loadMore();
     };
-    const loadMore = async (keywrod) => {
-      await codeStore.getCodeList(keywrod);
+    const loadMore = async () => {
+      await codeStore.getCodeList(keyword.value, langType.value);
     };
-    const onSearch = async (value) => {
+    const onActive = async (item) => {
+      langType.value = item.value;
       codeStore.init();
-      await loadMore(value);
+      await loadMore();
+    };
+    const onSearch = async () => {
+      codeStore.init();
+      await loadMore();
     };
     const onClear = async () => {
       codeStore.init();
@@ -68,7 +96,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           showAction: false,
           modelValue: keyword.value
         }),
-        g: common_vendor.f(common_vendor.unref(codeStore).codeList, (item, index, i0) => {
+        g: common_vendor.f(codeTypes, (item, k0, i0) => {
+          return {
+            a: common_vendor.t(item.key),
+            b: common_vendor.n(`code-type ${langType.value === item.value ? "active" : ""}`),
+            c: common_vendor.o(($event) => onActive(item), item.key),
+            d: item.key
+          };
+        }),
+        h: common_vendor.f(common_vendor.unref(codeStore).codeList, (item, index, i0) => {
           return {
             a: common_vendor.t(item.title),
             b: common_vendor.t(item.language),
@@ -77,12 +113,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             e: "ae92b765-3-" + i0 + ",ae92b765-2"
           };
         }),
-        h: noMore.value
+        i: noMore.value
       }, noMore.value ? {} : {}, {
-        i: common_vendor.o(scrolltolower),
-        j: common_vendor.p({
+        j: common_vendor.o(scrolltolower),
+        k: common_vendor.p({
           lowerThreshold: "10",
-          height: "calc(100vh - 50px)",
+          height: "calc(100vh - 100px)",
           ["enable-flex"]: true
         })
       });
