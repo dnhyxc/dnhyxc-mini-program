@@ -4,7 +4,7 @@
 	</div>
 	<scroll-view v-else enable-back-to-top enable-flex enable-passive class="detail-wrap" scroll-y="true">
 		<div class=" title">{{ codeStore.detail.title }}</div>
-		<mp-html :content="processedAbstract" style="line-height: 2em" />
+		<!-- <mp-html :content="processedAbstract" style="line-height: 2em" /> -->
 		<mp-html :content="codeStore.html" style="line-height: 2em" />
 	</scroll-view>
 </template>
@@ -22,13 +22,13 @@
 	const scrollIntoId = ref<string>("");
 	const scrollTop = ref<number>(0);
 
-	const processedAbstract = computed(() => {
-		if (!codeStore.detail.abstract) return "";
-		return codeStore.detail.abstract.replace(
-			/<code([^>]*)>/g,
-			'<code$1 class="hljs-inline">'
-		);
-	});
+	// const processedAbstract = computed(() => {
+	// 	if (!codeStore.detail.abstract) return "";
+	// 	return codeStore.detail.abstract.replace(
+	// 		/<code([^>]*)>/g,
+	// 		'<code$1 class="hljs-inline">'
+	// 	);
+	// });
 
 	// 通过 options 获取路由跳转携带的参数
 	onLoad(async (options) => {

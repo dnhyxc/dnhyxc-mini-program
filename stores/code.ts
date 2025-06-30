@@ -71,7 +71,7 @@ export const useCodeStore = defineStore('code', {
 					const result = await request<{ data : string, success : boolean }>({
 						url: `${apiUrl}/md2html`,
 						data: {
-							content: `\`\`\`${res.data.language}\n${res.data.content}\n\`\`\``,
+							content: `${res.data.abstract}\n\`\`\`${res.data.language}\n${res.data.content}\n\`\`\``,
 							options: {
 								needKatex: false, // 是否需要转译数学公式
 								lineNumber: true // 是否开启代码块行号

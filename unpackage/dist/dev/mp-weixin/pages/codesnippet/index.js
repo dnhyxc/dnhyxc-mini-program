@@ -16,14 +16,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const codeStore = stores_code.useCodeStore();
     common_vendor.ref("");
     common_vendor.ref(0);
-    const processedAbstract = common_vendor.computed(() => {
-      if (!codeStore.detail.abstract)
-        return "";
-      return codeStore.detail.abstract.replace(
-        /<code([^>]*)>/g,
-        '<code$1 class="hljs-inline">'
-      );
-    });
     common_vendor.onLoad(async (options) => {
       const id = decodeURIComponent(options.scene);
       const codeId = !["undefined", "null"].includes(id) ? id : options == null ? void 0 : options.id;
@@ -42,9 +34,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       } : {
         c: common_vendor.t(common_vendor.unref(codeStore).detail.title),
         d: common_vendor.p({
-          content: processedAbstract.value
-        }),
-        e: common_vendor.p({
           content: common_vendor.unref(codeStore).html
         })
       });

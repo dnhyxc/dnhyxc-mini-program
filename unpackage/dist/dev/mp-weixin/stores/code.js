@@ -59,7 +59,8 @@ const useCodeStore = common_vendor.defineStore("code", {
           const result = await server_index.request({
             url: `${constant_index.apiUrl}/md2html`,
             data: {
-              content: `\`\`\`${res.data.language}
+              content: `${res.data.abstract}
+\`\`\`${res.data.language}
 ${res.data.content}
 \`\`\``,
               options: {
